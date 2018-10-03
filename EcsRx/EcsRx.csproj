@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Version>0.0.0</Version>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
+    <Title>EcsRx</Title>
+    <Authors>Grofit (LP)</Authors>
+    <PackageLicenseUrl>https://github.com/ecsrx/ecsrx/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/ecsrx/ecsrx</PackageProjectUrl>
+    <Description>A reactive take on the ECS pattern for .net game developers</Description>
+    <PackageTags>ecs rx reactive patterns ioc game-development xna monogame unity</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Properties\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Properties\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="UniRx" Version="5.4.1" />
+  </ItemGroup>
+</Project>
