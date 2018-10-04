@@ -23,7 +23,7 @@ namespace Assets.Reactor.Examples.Performance.Systems
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6), Scheduler.CurrentThread).Select(x => entity);
+            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
         }
 
         public void Process(IEntity entity)
@@ -53,7 +53,7 @@ namespace Assets.Reactor.Examples.Performance.Systems
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6), Scheduler.CurrentThread).Select(x => entity);
+            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
         }
 
         public void Process(IEntity entity)
@@ -75,7 +75,7 @@ namespace Assets.Reactor.Examples.Performance.Systems
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6), Scheduler.CurrentThread).Select(x => entity);
+            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
         }
 
         public void Process(IEntity entity)

@@ -7,7 +7,7 @@ namespace EcsRx.Extensions
     {       
         public static void RemoveAndDispose<T>(this IDictionary<T, IDisposable> disposables, T key)
         {
-            //if(!disposables.ContainsKey(key)){ return; }
+            if(!disposables.ContainsKey(key)){ return; }
             disposables[key].Dispose();
             disposables.Remove(key);
         }
