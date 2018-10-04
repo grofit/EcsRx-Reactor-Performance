@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
 using Reactor.Entities;
 using Reactor.Extensions;
 using Reactor.Pools;
-using UniRx;
+
 
 namespace Reactor.Systems.Executor.Handlers
 {
@@ -25,8 +27,7 @@ namespace Reactor.Systems.Executor.Handlers
         {
             var observable = system.Impact(entity);
 
-            var subscription = observable != null ? observable
-                .Subscribe(x => system.Reaction(entity)) : Disposable.Empty;
+            var subscription = observable?.Subscribe(x => system.Reaction(entity)) ?? Disposable.Empty;
 
             return new SubscriptionToken(entity, subscription);
         }

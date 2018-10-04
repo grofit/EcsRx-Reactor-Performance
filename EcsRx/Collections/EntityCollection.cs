@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
+using System.Reactive.Subjects;
 using EcsRx.Blueprints;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
-using UniRx;
+
 
 namespace EcsRx.Collections
 {
@@ -14,11 +16,11 @@ namespace EcsRx.Collections
         public readonly IDictionary<int, IEntity> EntityLookup;
         public readonly IDictionary<int, IDisposable> EntitySubscriptions;
 
-        public UniRx.IObservable<CollectionEntityEvent> EntityAdded => _onEntityAdded;
-        public UniRx.IObservable<CollectionEntityEvent> EntityRemoved => _onEntityRemoved;
-        public UniRx.IObservable<ComponentsChangedEvent> EntityComponentsAdded => _onEntityComponentsAdded;
-        public UniRx.IObservable<ComponentsChangedEvent> EntityComponentsRemoving => _onEntityComponentsRemoving;
-        public UniRx.IObservable<ComponentsChangedEvent> EntityComponentsRemoved => _onEntityComponentsRemoved;
+        public IObservable<CollectionEntityEvent> EntityAdded => _onEntityAdded;
+        public IObservable<CollectionEntityEvent> EntityRemoved => _onEntityRemoved;
+        public IObservable<ComponentsChangedEvent> EntityComponentsAdded => _onEntityComponentsAdded;
+        public IObservable<ComponentsChangedEvent> EntityComponentsRemoving => _onEntityComponentsRemoving;
+        public IObservable<ComponentsChangedEvent> EntityComponentsRemoved => _onEntityComponentsRemoved;
         
         public string Name { get; }
         public IEntityFactory EntityFactory { get; }

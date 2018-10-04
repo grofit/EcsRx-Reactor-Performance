@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using EcsRx.Components;
 using EcsRx.Components.Database;
-using UniRx;
+
 
 namespace EcsRx.Entities
 {
     public class Entity : IEntity
     {
-        public UniRx.IObservable<int[]> ComponentsAdded => _onComponentsAdded;
-        public UniRx.IObservable<int[]> ComponentsRemoving => _onComponentsRemoving;
-        public UniRx.IObservable<int[]> ComponentsRemoved => _onComponentsRemoved;
+        public IObservable<int[]> ComponentsAdded => _onComponentsAdded;
+        public IObservable<int[]> ComponentsRemoving => _onComponentsRemoving;
+        public IObservable<int[]> ComponentsRemoved => _onComponentsRemoved;
         
         private readonly Subject<int[]> _onComponentsAdded;
         private readonly Subject<int[]> _onComponentsRemoving;

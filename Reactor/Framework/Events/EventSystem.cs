@@ -1,5 +1,5 @@
 ﻿using System;
-using UniRx;
+
 
 namespace Reactor.Events
 {
@@ -17,7 +17,7 @@ namespace Reactor.Events
             MessageBroker.Publish(message);
         }
 
-        public UniRx.IObservable<T> Receive<T>()
+        public IObservable<T> Receive<T>()
         {
             return MessageBroker.Receive<T>();
         }

@@ -1,12 +1,20 @@
 ﻿using System;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using Assets.Reactor.Examples.Performance.Components;
 using Reactor.Entities;
 using Reactor.Groups;
 using Reactor.Systems;
-using UniRx;
+using Reactor.Systems.Executor.Handlers;
+
 
 namespace Assets.Reactor.Examples.Performance.Systems
 {
+    public static class EcsScheduler
+    {
+        public static EventLoopScheduler EventLoopScheduler = new EventLoopScheduler();
+    }
+
     public class SomeSystem : IEntityReactionSystem
     {
         public IGroup TargetGroup { get; } = 
@@ -16,16 +24,24 @@ namespace Assets.Reactor.Examples.Performance.Systems
                 .WithComponent<Component3>()
                 .Build();
 
-        private Random _random = new Random();
+        private bool _systemToggle;
+        private static readonly TimeSpan Ts = TimeSpan.FromMilliseconds(16.6);
 
-        public UniRx.IObservable<IEntity> Impact(IEntity entity)
+        public IObservable<IEntity> Impact(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
+            return Observable.Timer(Ts, EcsScheduler.EventLoopScheduler).Select(x => entity);
         }
 
         public void Reaction(IEntity entity)
         {
-            if (_random.Next(0, 2) == 0)
+            var component1 = entity.GetComponent<Component1>();
+            var component2 = entity.GetComponent<Component2>();
+            var component3 = entity.GetComponent<Component3>();
+            if(component1 == null || component2 == null || component3 == null)
+            { throw new Exception("Not all components are available"); }
+            
+            //Console.Write(Thread.CurrentThread.ManagedThreadId);
+            if (_systemToggle)
             {
                 entity.RemoveComponent<Component2>();
                 entity.AddComponent(new Component4());
@@ -35,6 +51,8 @@ namespace Assets.Reactor.Examples.Performance.Systems
                 entity.RemoveComponent<Component3>();
                 entity.AddComponent(new Component5());
             }
+
+            _systemToggle = !_systemToggle;
         }
     }
 
@@ -47,14 +65,22 @@ namespace Assets.Reactor.Examples.Performance.Systems
                 .WithComponent<Component4>()
                 .Build();
 
+        private static readonly TimeSpan Ts = TimeSpan.FromMilliseconds(16.6);
 
-        public UniRx.IObservable<IEntity> Impact(IEntity entity)
+        public IObservable<IEntity> Impact(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
+            return Observable.Timer(Ts, EcsScheduler.EventLoopScheduler).Select(x => entity);
         }
 
         public void Reaction(IEntity entity)
         {
+            var component1 = entity.GetComponent<Component1>();
+            var component2 = entity.GetComponent<Component3>();
+            var component3 = entity.GetComponent<Component4>();
+            if(component1 == null || component2 == null || component3 == null)
+            { throw new Exception("Not all components are available"); }
+            
+            //Console.Write(Thread.CurrentThread.ManagedThreadId);
             entity.RemoveComponent<Component4>();
             entity.AddComponent(new Component2());
         }
@@ -69,14 +95,22 @@ namespace Assets.Reactor.Examples.Performance.Systems
                 .WithComponent<Component5>()
                 .Build();
 
+        private static readonly TimeSpan Ts = TimeSpan.FromMilliseconds(16.6);
 
-        public UniRx.IObservable<IEntity> Impact(IEntity entity)
+        public IObservable<IEntity> Impact(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
+            return Observable.Timer(Ts, EcsScheduler.EventLoopScheduler).Select(x => entity);
         }
 
         public void Reaction(IEntity entity)
         {
+            var component1 = entity.GetComponent<Component1>();
+            var component2 = entity.GetComponent<Component2>();
+            var component3 = entity.GetComponent<Component5>();
+            if(component1 == null || component2 == null || component3 == null)
+            { throw new Exception("Not all components are available"); }
+            
+            //Console.Write(Thread.CurrentThread.ManagedThreadId);
             entity.RemoveComponent<Component5>();
             entity.AddComponent(new Component3());
         }

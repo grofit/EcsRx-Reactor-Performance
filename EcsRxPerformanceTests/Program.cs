@@ -1,4 +1,5 @@
-﻿using EcsRxPerformanceTests.Scenarios;
+﻿using System;
+using EcsRxPerformanceTests.Scenarios;
 
 namespace EcsRxPerformanceTests
 {
@@ -10,6 +11,8 @@ namespace EcsRxPerformanceTests
             var application = new SimpleOptimizedTestApplication();
             
             application.StartApplication();
+
+            //Console.ReadKey();
         }
     }
 }

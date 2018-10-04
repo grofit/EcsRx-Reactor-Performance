@@ -22,12 +22,12 @@ namespace EcsRx.Collections
         /// <summary>
         /// Fired when a collection has been added
         /// </summary>
-        UniRx.IObservable<IEntityCollection> CollectionAdded { get; }
+        IObservable<IEntityCollection> CollectionAdded { get; }
         
         /// <summary>
         /// Fired when a collection has been removed
         /// </summary>
-        UniRx.IObservable<IEntityCollection> CollectionRemoved { get; }
+        IObservable<IEntityCollection> CollectionRemoved { get; }
 
         /// <summary>
         /// Gets an enumerable collection of entities for you to iterate through,

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using EcsRx;
 using EcsRx.Collections;
 using EcsRx.Components;
 using EcsRx.Components.Database;
@@ -8,7 +10,6 @@ using EcsRx.Executor;
 using EcsRx.Executor.Handlers;
 using EcsRx.Groups.Observable;
 using EcsRx.Systems.Handlers;
-using UniRx;
 
 namespace EcsRxPerformanceTests
 {
@@ -22,7 +23,7 @@ namespace EcsRxPerformanceTests
 		public void Publish<T>(T message)
 		{ MessageBroker.Publish(message); }
 
-		public UniRx.IObservable<T> Receive<T>()
+		public IObservable<T> Receive<T>()
 		{ return MessageBroker.Receive<T>(); }
 	}
 	

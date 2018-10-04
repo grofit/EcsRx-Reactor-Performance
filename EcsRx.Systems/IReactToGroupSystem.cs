@@ -26,7 +26,7 @@ namespace EcsRx.Systems
         /// <remarks>
         /// In most use cases you probably want to run this every update/interval
         /// </remarks>
-        UniRx.IObservable<IObservableGroup> ReactToGroup(IObservableGroup observableGroup);
+        IObservable<IObservableGroup> ReactToGroup(IObservableGroup observableGroup);
         
         /// <summary>
         /// The processor for the entity

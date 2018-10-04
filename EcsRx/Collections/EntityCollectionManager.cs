@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
+using System.Reactive.Subjects;
 using EcsRx.Components;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
 using EcsRx.Groups;
 using EcsRx.Groups.Observable;
-using UniRx;
+
 
 namespace EcsRx.Collections
 {
@@ -23,13 +25,13 @@ namespace EcsRx.Collections
         public IObservableGroupFactory ObservableGroupFactory { get; }
         public IComponentTypeLookup ComponentTypeLookup { get; }
         
-        public UniRx.IObservable<CollectionEntityEvent> EntityAdded => _onEntityAdded;
-        public UniRx.IObservable<CollectionEntityEvent> EntityRemoved => _onEntityRemoved;
-        public UniRx.IObservable<ComponentsChangedEvent> EntityComponentsAdded => _onEntityComponentsAdded;
-        public UniRx.IObservable<ComponentsChangedEvent> EntityComponentsRemoving => _onEntityComponentsRemoving;
-        public UniRx.IObservable<ComponentsChangedEvent> EntityComponentsRemoved => _onEntityComponentsRemoved;
-        public UniRx.IObservable<IEntityCollection> CollectionAdded => _onCollectionAdded;
-        public UniRx.IObservable<IEntityCollection> CollectionRemoved => _onCollectionRemoved;
+        public IObservable<CollectionEntityEvent> EntityAdded => _onEntityAdded;
+        public IObservable<CollectionEntityEvent> EntityRemoved => _onEntityRemoved;
+        public IObservable<ComponentsChangedEvent> EntityComponentsAdded => _onEntityComponentsAdded;
+        public IObservable<ComponentsChangedEvent> EntityComponentsRemoving => _onEntityComponentsRemoving;
+        public IObservable<ComponentsChangedEvent> EntityComponentsRemoved => _onEntityComponentsRemoved;
+        public IObservable<IEntityCollection> CollectionAdded => _onCollectionAdded;
+        public IObservable<IEntityCollection> CollectionRemoved => _onCollectionRemoved;
         
         private readonly Subject<CollectionEntityEvent> _onEntityAdded;
         private readonly Subject<CollectionEntityEvent> _onEntityRemoved;

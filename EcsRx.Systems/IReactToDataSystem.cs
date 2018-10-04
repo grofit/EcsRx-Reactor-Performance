@@ -17,7 +17,7 @@ namespace EcsRx.Systems
         /// </summary>
         /// <param name="entity">The entity to react to</param>
         /// <returns>Observable containing data</returns>
-        UniRx.IObservable<T> ReactToData(IEntity entity);
+        IObservable<T> ReactToData(IEntity entity);
 
         /// <summary>
         /// The executor which is passed both the entity and the data from the reaction

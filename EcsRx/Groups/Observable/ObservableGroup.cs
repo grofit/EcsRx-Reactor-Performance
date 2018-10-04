@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using EcsRx.Collections;
 using EcsRx.Entities;
 using EcsRx.Events;
 using EcsRx.Extensions;
-using UniRx;
+
 
 namespace EcsRx.Groups.Observable
 {
@@ -15,9 +16,9 @@ namespace EcsRx.Groups.Observable
         public readonly IDictionary<int, IEntity> CachedEntities;
         public readonly IList<IDisposable> Subscriptions;
 
-        public UniRx.IObservable<IEntity> OnEntityAdded => _onEntityAdded;
-        public UniRx.IObservable<IEntity> OnEntityRemoved => _onEntityRemoved;
-        public UniRx.IObservable<IEntity> OnEntityRemoving => _onEntityRemoving;
+        public IObservable<IEntity> OnEntityAdded => _onEntityAdded;
+        public IObservable<IEntity> OnEntityRemoved => _onEntityRemoved;
+        public IObservable<IEntity> OnEntityRemoving => _onEntityRemoving;
 
         private readonly Subject<IEntity> _onEntityAdded;
         private readonly Subject<IEntity> _onEntityRemoved;

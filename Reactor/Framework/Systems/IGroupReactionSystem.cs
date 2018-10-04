@@ -1,6 +1,6 @@
 using Reactor.Entities;
 using Reactor.Groups;
-using UniRx;
+using System;
 
 namespace Reactor.Systems
 {

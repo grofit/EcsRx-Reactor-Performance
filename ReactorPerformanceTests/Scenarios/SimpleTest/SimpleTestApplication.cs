@@ -1,6 +1,6 @@
-﻿using Assets.Reactor.Examples.Performance.Components;
+﻿using System.Reactive.Linq;
+using Assets.Reactor.Examples.Performance.Components;
 using Assets.Reactor.Examples.Performance.Systems;
-using Reactor.Systems.Executor;
 using Reactor.Unity;
 
 namespace Assets.Reactor.Examples.Performance
@@ -18,15 +18,18 @@ namespace Assets.Reactor.Examples.Performance
         {
             var defaultPool = PoolManager.GetPool();
 
-            // create 5k entities
-            for (var i = 0; i < 4000; i++)
+            Observable.Start(() =>
             {
-                var entity = defaultPool.CreateEntity();
+                for (var i = 0; i < 50000; i++)
+                {
+                    var entity = defaultPool.CreateEntity();
 
-                entity.AddComponent<Component1>();
-                entity.AddComponent<Component2>();
-                entity.AddComponent<Component3>();
-            }
+                    entity.AddComponent<Component1>();
+                    entity.AddComponent<Component2>();
+                    entity.AddComponent<Component3>();
+                }
+
+            }, EcsScheduler.EventLoopScheduler);
         }
     }
 }

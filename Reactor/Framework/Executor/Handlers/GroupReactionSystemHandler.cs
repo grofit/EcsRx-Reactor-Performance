@@ -1,6 +1,7 @@
+using System;
 using Reactor.Groups;
 using Reactor.Pools;
-using UniRx;
+
 
 namespace Reactor.Systems.Executor.Handlers
 {
@@ -18,7 +19,7 @@ namespace Reactor.Systems.Executor.Handlers
             var groupAccessor = PoolManager.CreateGroupAccessor(system.TargetGroup);
             var obs = system.Impact(groupAccessor);
 
-            var subscription = ObservableExtensions.Subscribe<IGroupAccessor>(obs, accessor =>
+            var subscription = obs.Subscribe<IGroupAccessor>(accessor =>
             {
                 foreach (var entity in accessor.Entities)
                 {

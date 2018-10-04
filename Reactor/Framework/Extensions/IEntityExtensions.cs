@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using Reactor.Entities;
 using Reactor.Groups;
-using UniRx;
+
 
 namespace Reactor.Extensions
 {
     public static class IEntityExtensions
     {
-        public static UniRx.IObservable<IEntity> ObserveProperty<T>(this IEntity entity, Func<IEntity, T> propertyLocator)
+        public static IObservable<IEntity> ObserveProperty<T>(this IEntity entity, Func<IEntity, T> propertyLocator)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)) // Just faking 60 updates per second
+            return Observable.Interval(TimeSpan.FromMilliseconds(16.6), Scheduler.CurrentThread) // Just faking 60 updates per second
                 .DistinctUntilChanged(x => propertyLocator(entity))
                 .Select(x => entity);
         }
 
-        public static UniRx.IObservable<IEntity> WaitForPredicateMet(this IEntity entity, Predicate<IEntity> predicate)
+        public static IObservable<IEntity> WaitForPredicateMet(this IEntity entity, Predicate<IEntity> predicate)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6))
-                .First(x => predicate(entity))
+            return Observable.Interval(TimeSpan.FromMilliseconds(16.6), Scheduler.CurrentThread)
+                .FirstAsync(x => predicate(entity))
                 .Select(x => entity);
         }
 

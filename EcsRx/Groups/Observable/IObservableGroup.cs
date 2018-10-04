@@ -30,17 +30,17 @@ namespace EcsRx.Groups.Observable
         /// <summary>
         /// Event stream for when an entity has been added to this group
         /// </summary>
-        UniRx.IObservable<IEntity> OnEntityAdded { get; }
+        IObservable<IEntity> OnEntityAdded { get; }
         
         /// <summary>
         /// Event stream for when an entity has been removed from this group
         /// </summary>
-        UniRx.IObservable<IEntity> OnEntityRemoved { get; }
+        IObservable<IEntity> OnEntityRemoved { get; }
         
         /// <summary>
         /// Event stream for when an entity is about to be removed from this group
         /// </summary>
-        UniRx.IObservable<IEntity> OnEntityRemoving { get; }
+        IObservable<IEntity> OnEntityRemoving { get; }
         
         /// <summary>
         /// Checks if the observable group contains a given entity

@@ -1,4 +1,5 @@
-﻿using Assets.Reactor.Examples.Performance.Systems;
+﻿using System.Reactive.Linq;
+using Assets.Reactor.Examples.Performance.Systems;
 using EcsRxPerformanceTests.Scenarios.Components;
 
 namespace EcsRxPerformanceTests.Scenarios
@@ -8,19 +9,24 @@ namespace EcsRxPerformanceTests.Scenarios
         protected override void ApplicationStarting()
         {
             SystemExecutor.AddSystem(new SomeSystem());
+            SystemExecutor.AddSystem(new SomeSystem2());
+            SystemExecutor.AddSystem(new SomeSystem3());
         }
 
         protected override void ApplicationStarted()
         {
-            var defaultPool = EntityCollectionManager.GetCollection();
-
-            // create 5k entities
-            for (var i = 0; i < 4000; i++)
+            Observable.Start(() =>
             {
-                var entity = defaultPool.CreateEntity();
+                var defaultPool = EntityCollectionManager.GetCollection();
 
-                entity.AddComponents(new Component1(), new Component2(), new Component3());
-            }
+                // create 5k entities
+                for (var i = 0; i < 50000; i++)
+                {
+                    var entity = defaultPool.CreateEntity();
+
+                    entity.AddComponents(new Component1(), new Component2(), new Component3());
+                }
+            }, EcsScheduler.EventLoopScheduler);
         }
     }
 }
