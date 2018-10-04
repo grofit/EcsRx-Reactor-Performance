@@ -1,4 +1,5 @@
-﻿using Assets.Reactor.Examples.Performance;
+﻿using System;
+using Assets.Reactor.Examples.Performance;
 
 namespace ReactorPerformanceTests
 {
@@ -8,6 +9,7 @@ namespace ReactorPerformanceTests
         {
             var application = new SimpleTestApplication();
             application.StartApplication();
+            Console.ReadKey();
         }
     }
 }
