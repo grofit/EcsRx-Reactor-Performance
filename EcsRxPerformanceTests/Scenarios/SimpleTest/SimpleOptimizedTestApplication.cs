@@ -8,6 +8,8 @@ namespace EcsRxPerformanceTests.Scenarios
         protected override void ApplicationStarting()
         {
             SystemExecutor.AddSystem(new SomeSystem());
+            SystemExecutor.AddSystem(new SomeSystem2());
+            SystemExecutor.AddSystem(new SomeSystem3());
         }
 
         protected override void ApplicationStarted()
