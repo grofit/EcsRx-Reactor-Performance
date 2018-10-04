@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Assets.Reactor.Examples.Performance.Components;
 using Reactor.Entities;
@@ -9,7 +10,10 @@ using Reactor.Systems.Executor.Handlers;
 
 namespace Assets.Reactor.Examples.Performance.Systems
 {
-    
+    public static class EcsScheduler
+    {
+        public static EventLoopScheduler EventLoopScheduler = new EventLoopScheduler();
+    }
 
     public class SomeSystem : IEntityReactionSystem
     {
@@ -25,7 +29,7 @@ namespace Assets.Reactor.Examples.Performance.Systems
 
         public IObservable<IEntity> Impact(IEntity entity)
         {
-            return Observable.Timer(Ts, Test.EventLoopScheduler).Select(x => entity);
+            return Observable.Timer(Ts, EcsScheduler.EventLoopScheduler).Select(x => entity);
         }
 
         public void Reaction(IEntity entity)
@@ -57,7 +61,7 @@ namespace Assets.Reactor.Examples.Performance.Systems
 
         public IObservable<IEntity> Impact(IEntity entity)
         {
-            return Observable.Timer(Ts, Test.EventLoopScheduler).Select(x => entity);
+            return Observable.Timer(Ts, EcsScheduler.EventLoopScheduler).Select(x => entity);
         }
 
         public void Reaction(IEntity entity)
@@ -81,7 +85,7 @@ namespace Assets.Reactor.Examples.Performance.Systems
 
         public IObservable<IEntity> Impact(IEntity entity)
         {
-            return Observable.Timer(Ts, Test.EventLoopScheduler).Select(x => entity);
+            return Observable.Timer(Ts, EcsScheduler.EventLoopScheduler).Select(x => entity);
         }
 
         public void Reaction(IEntity entity)

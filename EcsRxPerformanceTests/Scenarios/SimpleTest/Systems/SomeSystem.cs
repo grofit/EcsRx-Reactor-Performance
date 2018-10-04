@@ -10,6 +10,11 @@ using EcsRxPerformanceTests.Scenarios.Components;
 
 namespace Assets.Reactor.Examples.Performance.Systems
 {
+    public static class EcsScheduler
+    {
+        public static EventLoopScheduler EventLoopScheduler = new EventLoopScheduler();
+    }
+
     public class SomeSystem : IReactToEntitySystem
     {
         public IGroup Group { get; } = 
@@ -20,10 +25,11 @@ namespace Assets.Reactor.Examples.Performance.Systems
                 .Build();
 
         private Random _random = new Random();
+        private static readonly TimeSpan Ts = TimeSpan.FromMilliseconds(16.6);
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
+            return Observable.Interval(Ts, EcsScheduler.EventLoopScheduler).Select(x => entity);
         }
 
         public void Process(IEntity entity)
@@ -50,10 +56,11 @@ namespace Assets.Reactor.Examples.Performance.Systems
                 .WithComponent<Component4>()
                 .Build();
 
+        private static readonly TimeSpan Ts = TimeSpan.FromMilliseconds(16.6);
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
+            return Observable.Interval(Ts, EcsScheduler.EventLoopScheduler).Select(x => entity);
         }
 
         public void Process(IEntity entity)
@@ -72,10 +79,11 @@ namespace Assets.Reactor.Examples.Performance.Systems
                 .WithComponent<Component5>()
                 .Build();
 
+        private static readonly TimeSpan Ts = TimeSpan.FromMilliseconds(16.6);
 
         public IObservable<IEntity> ReactToEntity(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
+            return Observable.Interval(Ts, EcsScheduler.EventLoopScheduler).Select(x => entity);
         }
 
         public void Process(IEntity entity)
