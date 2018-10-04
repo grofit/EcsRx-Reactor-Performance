@@ -7,12 +7,12 @@ namespace EcsRxPerformanceTests
     {
         static void Main(string[] args)
         {
-            var application = new SimpleTestApplication();
-            //var application = new SimpleOptimizedTestApplication();
+            //var application = new SimpleTestApplication();
+            var application = new SimpleOptimizedTestApplication();
             
             application.StartApplication();
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }

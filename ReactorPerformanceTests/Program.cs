@@ -9,7 +9,7 @@ namespace ReactorPerformanceTests
         {
             var application = new SimpleTestApplication();
             application.StartApplication();
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }
