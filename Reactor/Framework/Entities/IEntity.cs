@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Reactor.Components;
 using Reactor.Pools;
-using UniRx;
 
 namespace Reactor.Entities
 {
@@ -29,7 +28,7 @@ namespace Reactor.Entities
 
         void Destory();
 
-        IReactiveCommand<IComponent> OnAddComponent { get; }
-        IReactiveCommand<IComponent> OnRemoveComponent { get; }
+        IObservable<IComponent> OnAddComponent { get; }
+        IObservable<IComponent> OnRemoveComponent { get; }
     }
 }

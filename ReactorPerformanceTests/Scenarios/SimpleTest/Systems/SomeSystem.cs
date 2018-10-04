@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using Assets.Reactor.Examples.Performance.Components;
 using Reactor.Entities;
 using Reactor.Groups;
 using Reactor.Systems;
-using UniRx;
+
 
 namespace Assets.Reactor.Examples.Performance.Systems
 {
@@ -18,9 +20,9 @@ namespace Assets.Reactor.Examples.Performance.Systems
 
         private Random _random = new Random();
 
-        public UniRx.IObservable<IEntity> Impact(IEntity entity)
+        public IObservable<IEntity> Impact(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
+            return Observable.Interval(TimeSpan.FromMilliseconds(16.6), Scheduler.CurrentThread).Select(x => entity);
         }
 
         public void Reaction(IEntity entity)
@@ -48,9 +50,9 @@ namespace Assets.Reactor.Examples.Performance.Systems
                 .Build();
 
 
-        public UniRx.IObservable<IEntity> Impact(IEntity entity)
+        public IObservable<IEntity> Impact(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
+            return Observable.Interval(TimeSpan.FromMilliseconds(16.6), Scheduler.CurrentThread).Select(x => entity);
         }
 
         public void Reaction(IEntity entity)
@@ -70,9 +72,9 @@ namespace Assets.Reactor.Examples.Performance.Systems
                 .Build();
 
 
-        public UniRx.IObservable<IEntity> Impact(IEntity entity)
+        public IObservable<IEntity> Impact(IEntity entity)
         {
-            return Observable.Interval(TimeSpan.FromMilliseconds(16.6)).Select(x => entity);
+            return Observable.Interval(TimeSpan.FromMilliseconds(16.6), Scheduler.CurrentThread).Select(x => entity);
         }
 
         public void Reaction(IEntity entity)

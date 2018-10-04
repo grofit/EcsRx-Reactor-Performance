@@ -1,14 +1,15 @@
-﻿using EcsRx.Events;
+﻿using System;
+using EcsRx.Events;
 
 namespace EcsRx.Collections
 {
     public interface INotifyingEntityCollection
     {
-        UniRx.IObservable<CollectionEntityEvent> EntityAdded { get; }
-        UniRx.IObservable<CollectionEntityEvent> EntityRemoved { get; }
+        IObservable<CollectionEntityEvent> EntityAdded { get; }
+        IObservable<CollectionEntityEvent> EntityRemoved { get; }
 
-        UniRx.IObservable<ComponentsChangedEvent> EntityComponentsAdded { get; }
-        UniRx.IObservable<ComponentsChangedEvent> EntityComponentsRemoving { get; }
-        UniRx.IObservable<ComponentsChangedEvent> EntityComponentsRemoved { get; }
+        IObservable<ComponentsChangedEvent> EntityComponentsAdded { get; }
+        IObservable<ComponentsChangedEvent> EntityComponentsRemoving { get; }
+        IObservable<ComponentsChangedEvent> EntityComponentsRemoved { get; }
     }
 }

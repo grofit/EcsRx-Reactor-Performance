@@ -19,6 +19,6 @@
     <None Remove="Properties\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="UniRx" Version="5.4.1" />
+    <PackageReference Include="System.Reactive" Version="4.1.1" />
   </ItemGroup>
 </Project>

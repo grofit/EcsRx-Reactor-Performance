@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Reactive;
 using Reactor.Groups;
-using UniRx;
+
 
 namespace Assets.Reactor.Framework.Groups.Filtration
 {
@@ -11,7 +12,7 @@ namespace Assets.Reactor.Framework.Groups.Filtration
         private bool _needsUpdate = true;
 
         protected IEnumerable<T> FilteredCache { get; set; }
-        protected abstract UniRx.IObservable<Unit> TriggerOnChange();
+        protected abstract IObservable<Unit> TriggerOnChange();
         protected abstract IEnumerable<T> FilterQuery();
 
         public IGroupAccessor GroupAccessor { get; private set; }

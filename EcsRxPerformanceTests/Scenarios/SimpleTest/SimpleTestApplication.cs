@@ -16,7 +16,7 @@ namespace EcsRxPerformanceTests.Scenarios
             var defaultPool = EntityCollectionManager.GetCollection();
 
             // create 5k entities
-            for (var i = 0; i < 4000; i++)
+            for (var i = 0; i < 50000; i++)
             {
                 var entity = defaultPool.CreateEntity();
 

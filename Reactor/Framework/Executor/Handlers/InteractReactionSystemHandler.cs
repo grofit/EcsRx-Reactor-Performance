@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using Reactor.Entities;
 using Reactor.Extensions;
 using Reactor.Pools;
-using UniRx;
+
 
 namespace Reactor.Systems.Executor.Handlers
 {
@@ -24,7 +25,7 @@ namespace Reactor.Systems.Executor.Handlers
         public SubscriptionToken ProcessEntity(IInteractReactionSystem system, IEntity entity)
         {
             var obs = system.Impact(entity);
-            var subscription = ObservableExtensions.Subscribe<IEntity>(obs, x =>
+            var subscription = obs.Subscribe<IEntity>(x =>
                 {
                     system.Reaction(entity, x);
                 });

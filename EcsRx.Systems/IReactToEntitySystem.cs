@@ -21,7 +21,7 @@ namespace EcsRx.Systems
         /// </summary>
         /// <param name="entity">The entity to react to</param>
         /// <returns>Observable indicating when the system should execute</returns>
-        UniRx.IObservable<IEntity> ReactToEntity(IEntity entity);
+        IObservable<IEntity> ReactToEntity(IEntity entity);
 
         /// <summary>
         /// The processor to handle the entity reaction

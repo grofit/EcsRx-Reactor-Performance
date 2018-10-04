@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using Reactor.Components;
 using Reactor.Groups;
 using Reactor.Pools;
-using UniRx;
+
 
 namespace Reactor.Entities
 {
@@ -25,11 +26,11 @@ namespace Reactor.Entities
         // это удобная, но не самая лучшая реализация, т.к. команды могут быть вызваны вне сущности,
         // а это может привести к некорректному поведению EntityView и других потребителей данного функционала
         // Замена нужна реактивная, т.к. не реактивная реализация будет мотивировать на смешивание стилей 
-        private readonly ReactiveCommand<IComponent> _addComponentSubject = new ReactiveCommand<IComponent>();
-        public IReactiveCommand<IComponent> OnAddComponent => _addComponentSubject;
+        private readonly Subject<IComponent> _addComponentSubject = new Subject<IComponent>();
+        public IObservable<IComponent> OnAddComponent => _addComponentSubject;
 
-        private readonly ReactiveCommand<IComponent> _removeComponentSubject = new ReactiveCommand<IComponent>();
-        public IReactiveCommand<IComponent> OnRemoveComponent => _removeComponentSubject;
+        private readonly Subject<IComponent> _removeComponentSubject = new Subject<IComponent>();
+        public IObservable<IComponent> OnRemoveComponent => _removeComponentSubject;
 
         private SystemReactor _reactor;
         private readonly List<IComponent> _components;
@@ -47,7 +48,7 @@ namespace Reactor.Entities
             var idx = _reactor.GetFutureComponentIdx(component);
             _components.Insert(idx, component);
             _reactor.AddComponent(this, component);
-            OnAddComponent.Execute(component);
+            _addComponentSubject.OnNext(component);
             return component;
         }
 
@@ -75,7 +76,7 @@ namespace Reactor.Entities
 
                 disposable?.Dispose();
 
-                OnRemoveComponent.Execute(component);
+                _removeComponentSubject.OnNext(component);
             }
         }
 
@@ -94,7 +95,7 @@ namespace Reactor.Entities
             disposable?.Dispose();
 
             _reactor.RemoveComponent(this, component);
-            OnRemoveComponent.Execute(component);
+            _removeComponentSubject.OnNext(component);
         }
 
         private void RemoveComponents(IEnumerable<IComponent> components)
@@ -118,7 +119,7 @@ namespace Reactor.Entities
                     disposable?.Dispose();
                     _reactor.RemoveComponent(this, component);
                     _components.RemoveAt(idx);
-                    OnRemoveComponent.Execute(component);
+                    _removeComponentSubject.OnNext(component);
                 }
             }
         }
