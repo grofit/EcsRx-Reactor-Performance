@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -6,7 +6,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EcsRx.Systems\EcsRx.Systems.csproj" />
+      <ProjectReference Include="..\EcsRx.Infrastructure.Ninject\EcsRx.Infrastructure.Ninject.csproj" />
+      <ProjectReference Include="..\EcsRx.Infrastructure\EcsRx.Infrastructure.csproj" />
+      <ProjectReference Include="..\EcsRx.Plugins.ReactiveSystems\EcsRx.Plugins.ReactiveSystems.csproj" />
       <ProjectReference Include="..\EcsRx\EcsRx.csproj" />
     </ItemGroup>
 

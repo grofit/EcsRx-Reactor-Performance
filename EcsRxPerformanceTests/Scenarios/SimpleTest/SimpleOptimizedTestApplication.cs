@@ -1,18 +1,15 @@
 ﻿using System.Reactive.Linq;
 using Assets.Reactor.Examples.Performance.Systems;
+using EcsRx.Examples.Application;
+using EcsRx.Extensions;
+using EcsRx.Infrastructure;
+using EcsRx.Infrastructure.Dependencies;
 using EcsRxPerformanceTests.Scenarios.Components;
 
 namespace EcsRxPerformanceTests.Scenarios
 {
-    public class SimpleOptimizedTestApplication : EcsRxApplication
+    public class SimpleOptimizedTestApplication : EcsRxConsoleApplication
     {
-        protected override void ApplicationStarting()
-        {
-            SystemExecutor.AddSystem(new SomeSystem());
-            SystemExecutor.AddSystem(new SomeSystem2());
-            SystemExecutor.AddSystem(new SomeSystem3());
-        }
-
         protected override void ApplicationStarted()
         {
             Observable.Start(() =>

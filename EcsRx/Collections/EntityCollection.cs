@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using EcsRx.Blueprints;
 using EcsRx.Entities;
-using EcsRx.Events;
+using EcsRx.Events.Collections;
 using EcsRx.Extensions;
-
+using EcsRx.Lookups;
 
 namespace EcsRx.Collections
 {
     public class EntityCollection : IEntityCollection, IDisposable
     {
-        public readonly IDictionary<int, IEntity> EntityLookup;
+        public int Id { get; }
+        public IEntityFactory EntityFactory { get; }
+        
+        public readonly EntityLookup EntityLookup;
         public readonly IDictionary<int, IDisposable> EntitySubscriptions;
 
         public IObservable<CollectionEntityEvent> EntityAdded => _onEntityAdded;
@@ -22,20 +27,17 @@ namespace EcsRx.Collections
         public IObservable<ComponentsChangedEvent> EntityComponentsRemoving => _onEntityComponentsRemoving;
         public IObservable<ComponentsChangedEvent> EntityComponentsRemoved => _onEntityComponentsRemoved;
         
-        public string Name { get; }
-        public IEntityFactory EntityFactory { get; }
-
         private readonly Subject<CollectionEntityEvent> _onEntityAdded;
         private readonly Subject<CollectionEntityEvent> _onEntityRemoved;
         private readonly Subject<ComponentsChangedEvent> _onEntityComponentsAdded;
         private readonly Subject<ComponentsChangedEvent> _onEntityComponentsRemoving;
         private readonly Subject<ComponentsChangedEvent> _onEntityComponentsRemoved;
         
-        public EntityCollection(string name, IEntityFactory entityFactory)
+        public EntityCollection(int id, IEntityFactory entityFactory)
         {
-            EntityLookup = new Dictionary<int, IEntity>();
+            EntityLookup = new EntityLookup();
             EntitySubscriptions = new Dictionary<int, IDisposable>();
-            Name = name;
+            Id = id;
             EntityFactory = entityFactory;
 
             _onEntityAdded = new Subject<CollectionEntityEvent>();
@@ -48,9 +50,9 @@ namespace EcsRx.Collections
         public void SubscribeToEntity(IEntity entity)
         {
             var entityDisposable = new CompositeDisposable();
-            entity.ComponentsAdded.Subscribe(x => _onEntityComponentsAdded.OnNext(new ComponentsChangedEvent(this, entity, x))).AddTo(entityDisposable);
-            entity.ComponentsRemoving.Subscribe(x => _onEntityComponentsRemoving.OnNext(new ComponentsChangedEvent(this, entity, x))).AddTo(entityDisposable);
-            entity.ComponentsRemoved.Subscribe(x => _onEntityComponentsRemoved.OnNext(new ComponentsChangedEvent(this, entity, x))).AddTo(entityDisposable);
+            entity.ComponentsAdded.Subscribe(x => _onEntityComponentsAdded.OnNext(new ComponentsChangedEvent(entity, x))).AddTo(entityDisposable);
+            entity.ComponentsRemoving.Subscribe(x => _onEntityComponentsRemoving.OnNext(new ComponentsChangedEvent(entity, x))).AddTo(entityDisposable);
+            entity.ComponentsRemoved.Subscribe(x => _onEntityComponentsRemoved.OnNext(new ComponentsChangedEvent(entity, x))).AddTo(entityDisposable);
             EntitySubscriptions.Add(entity.Id, entityDisposable);
         }
 
@@ -61,8 +63,8 @@ namespace EcsRx.Collections
         {
             var entity = EntityFactory.Create(null);
 
-            EntityLookup.Add(entity.Id, entity);
-            _onEntityAdded.OnNext(new CollectionEntityEvent(entity, this));
+            EntityLookup.Add(entity);
+            _onEntityAdded.OnNext(new CollectionEntityEvent(entity));
             SubscribeToEntity(entity);
            
             blueprint?.Apply(entity);
@@ -88,21 +90,21 @@ namespace EcsRx.Collections
             
             UnsubscribeFromEntity(entityId);
             
-            _onEntityRemoved.OnNext(new CollectionEntityEvent(entity, this));
+            _onEntityRemoved.OnNext(new CollectionEntityEvent(entity));
         }
 
         public void AddEntity(IEntity entity)
         {
-            EntityLookup.Add(entity.Id, entity);
-            _onEntityAdded.OnNext(new CollectionEntityEvent(entity, this));
+            EntityLookup.Add(entity);
+            _onEntityAdded.OnNext(new CollectionEntityEvent(entity));
             SubscribeToEntity(entity);
         }
 
         public bool ContainsEntity(int id)
-        { return EntityLookup.ContainsKey(id); }
+        { return EntityLookup.Contains(id); }
 
         public IEnumerator<IEntity> GetEnumerator()
-        { return EntityLookup.Values.GetEnumerator(); }
+        { return EntityLookup.GetEnumerator(); }
 
         IEnumerator IEnumerable.GetEnumerator()
         { return GetEnumerator(); }
@@ -118,5 +120,8 @@ namespace EcsRx.Collections
             EntityLookup.Clear();
             EntitySubscriptions.RemoveAndDisposeAll();
         }
+
+        public int Count => EntityLookup.Count;
+        public IEntity this[int index] => EntityLookup.GetByIndex(index);
     }
 }

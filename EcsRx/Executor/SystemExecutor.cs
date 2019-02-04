@@ -46,7 +46,7 @@ namespace EcsRx.Executor
                 .Where(x => x.CanHandleSystem(system))
                 .OrderByPriority();
 
-            foreach (var handler in applicableHandlers)
+            foreach(var handler in applicableHandlers)
             { handler.SetupSystem(system); }
 
             _systems.Add(system);
